@@ -1,4 +1,3 @@
-git remote add origin
 import operator
 ops = {
     '+' : operator.add,
@@ -7,8 +6,12 @@ ops = {
     '/' : operator.floordiv,
     '%' : operator.mod,
 }
+end = int(input())
 from itertools import *
-for j in permutations([15, 7, 49, 69, 49]):
-    for x in product('*/-+', repeat = len(j)-1):
-        a,b,c,d,e = j
-        if (ops[x[3]](ops[x[2]](ops[x[1]](ops[x[0]](a, b), c), d), e)) == 28: print(j, x)
+for j in permutations([*map(int, input().split())]):
+    for x in product('*-+%/', repeat = len(j)-1):
+        nm = [j[i] for i in range(len(j))]
+        temp = nm[0]; 
+        for q in range(len(x)//2+2 if not len(x)%2 else len(x)//2+1):
+            temp = ops[x[q]](temp, nm[q+1])
+        if temp == end: print(j, x)
